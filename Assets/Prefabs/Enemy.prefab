@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 3738738063419362240}
   m_Layer: 7
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,12 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efb2e20212d15094583a889e1f3367da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabExplosion: {fileID: 7302861985510318563, guid: b9fe2c8d722fc9841a6db269ef3f3d04,
-    type: 3}
-  _prefabPowerUp: {fileID: 3322102763667225299, guid: 195424833b2e94e4caa204a418379bf2,
-    type: 3}
-  _prefabProjectile: {fileID: 177452054660736933, guid: 1dd0ab6fc9ba1d746999bdd9187ab64b,
-    type: 3}
 --- !u!65 &3738738063419362240
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -127,7 +121,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

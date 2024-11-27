@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e90b6ec45991540469d11f9e0e5e4747, type: 3}
+  m_Name: PoolConfig
+  m_EditorClassIdentifier: 
+  enemyObjectPoolPrefabs: {fileID: 5494264766229922012, guid: 854fb8ff7df935246836796a925acff7,
+    type: 3}
+  enemyObjectPoolCount: 10
+  enemyProjectilePoolPrefabs: {fileID: 4237334538316748030, guid: 1dd0ab6fc9ba1d746999bdd9187ab64b,
+    type: 3}
+  enemyProjectilePoolCount: 10
+  playerProjectilePoolPrefabs: {fileID: 4237334538316748030, guid: 4e9b0c775b3565f4cb2ec3ed48ebcfad,
+    type: 3}
+  playerProjectilePoolCount: 10
+  playerPowerupPoolPrefabs: {fileID: 5739546006976547901, guid: 195424833b2e94e4caa204a418379bf2,
+    type: 3}
+  playerPowerupPoolCount: 5
+  vfxExplosionPoolPrefabs: {fileID: 7302861985510318563, guid: b9fe2c8d722fc9841a6db269ef3f3d04,
+    type: 3}
+  vfxExplosionPoolCount: 5
+  vfxOnPickupPoolPrefabs: {fileID: 3432433612792799746, guid: 7fdd8c603174ad3439633edaf985b54a,
+    type: 3}
+  vfxOnPickupPoolCount: 2
+  vfxOnHitPoolPrefabs: {fileID: 7986753564298726130, guid: dd33c180250d8df4fa9fce101885d2d3,
+    type: 3}
+  vfxOnHitPoolCount: 2
+  vfxMuzzlePoolPrefabs: {fileID: 3554789687376398716, guid: 1786f1e300359794ebc71dcc0684113e,
+    type: 3}
+  vfxMuzzlePoolCount: 3

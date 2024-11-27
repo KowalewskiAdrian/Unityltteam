@@ -9,16 +9,13 @@ public class GameplayUi : MonoBehaviour {
     [SerializeField] private TMP_Text _labelScore;
     [SerializeField] private RectTransform _health;
 
-    private int _score = 0;
-
     private void Awake() {
         _labelScore.text = "0";
         UpdateHealth(0);
 
     }
 
-    public void AddScore(int s) {
-        _score += s;
+    public void ShowScore(int _score) {
         _labelScore.text = _score.ToString();
     }
 

@@ -1,9 +1,13 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameOverUi : MonoBehaviour {
 
-    public void Open() {
+    [SerializeField] private TMP_Text _labelScore;
+
+    public void Open(int _score) {
+        _labelScore.text = "Your Score :" + _score.ToString();
         gameObject.SetActive(true);
     }
 

@@ -6,13 +6,11 @@ using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour {
 
-    [SerializeField] private GameObject _prefabExplosion;
-    [SerializeField] private PowerUp _prefabPowerUp;
-    [SerializeField] private Projectile _prefabProjectile;
-
     private float _powerUpSpawnChance = 0.1f;
     private int _health = 2;
     private float _speed = 2.0f;
+    private float _aliveLimitHeight = -3.0f;
+    private float _offsetSpawnPowerup = 3.0f;
     private Rigidbody _body;
 
     private bool canFire = false;
@@ -31,8 +29,13 @@ public class Enemy : MonoBehaviour {
         if (canFire) {
             _fireTimer += Time.deltaTime;
             if (_fireTimer >= _fireInterval) {
-                var go = Instantiate(_prefabProjectile);
-                go.transform.position = transform.position;
+                GameObject objEnemyProjectile = EnemyProjectilePool.SharedInstance.GetPooledObject();
+                if (objEnemyProjectile != null)
+                {
+                    objEnemyProjectile.transform.position = transform.position;
+                    objEnemyProjectile.SetActive(true);
+                }
+
                 _fireTimer -= _fireInterval;
             }
         }
@@ -42,23 +45,47 @@ public class Enemy : MonoBehaviour {
         var p = _body.position;
         p += Vector3.down * (_speed * Time.deltaTime);
         _body.MovePosition(p);
+
+        if (p.y < _aliveLimitHeight)
+            gameObject.SetActive(false);
     }
 
-    public void Hit(int damage) {
+    public void Hit(int damage) 
+    {
         _health -= damage;
-        if (_health <= 0) {
-            var fx = Instantiate(_prefabExplosion);
-            fx.transform.position = transform.position;
-            
-            if (Random.value < _powerUpSpawnChance) {
-                var powerup = Instantiate(_prefabPowerUp);
-                var types = Enum.GetValues(typeof(PowerUp.PowerUpType)).Cast<PowerUp.PowerUpType>().ToList();
-                powerup.SetType(types[Random.Range(0,types.Count)]);
+        if (_health <= 0) 
+        {
+            GameObject objVFXExplosion = VFXExplosionPools.SharedInstance.GetPooledObject();
+            if (objVFXExplosion != null) 
+            {
+                objVFXExplosion.transform.position = transform.position;
+                objVFXExplosion.SetActive(true);
+            }
+
+            if (Random.value < _powerUpSpawnChance) 
+            {
+                GameObject objPowerUpProjectile = PlayerPowerupPools.SharedInstance.GetPooledObject();
+                if (objPowerUpProjectile != null)
+                {
+                    objPowerUpProjectile.transform.position = new Vector3(Random.Range(-_offsetSpawnPowerup, _offsetSpawnPowerup), 17.0f, 0.0f);
+                    var types = Enum.GetValues(typeof(PowerUp.PowerUpType)).Cast<PowerUp.PowerUpType>().ToList();
+                    objPowerUpProjectile.GetComponent<PowerUp>().SetType(types[Random.Range(0, types.Count)]);
+                    objPowerUpProjectile.SetActive(true);
+                }
             }
             
-            Destroy(gameObject);
-            Object.FindObjectOfType<GameplayUi>(true).AddScore(1);
+            gameObject.SetActive(false);
+            Object.FindObjectOfType<GameController>(true).OnEnemyDie();
+        }
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "PlayerProjectile")
+        {
+            int nDamage = other.GetComponent<Projectile>().GetDamage();
+            Hit(nDamage);
+            other.gameObject.SetActive(false);
         }
     }
 
