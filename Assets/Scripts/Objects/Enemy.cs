@@ -8,11 +8,12 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour, IDamageable {
+    public UnityAction actionOnDie;
     public EnemyConfig enemyConfig;
 
-    private GameController gameController;
     private Rigidbody _body;
 
+    private long _index;
     private int _health = 2;
     private bool _canFire = false;
 
@@ -140,8 +141,7 @@ public class Enemy : MonoBehaviour, IDamageable {
         }
     }
 
-    public void EnemyOnPlay(GameController controller) {
-        gameController = controller;
+    public void EnemyOnPlay() {
         InitEnemy();
 
         gameObject.SetActive(true);
@@ -150,6 +150,6 @@ public class Enemy : MonoBehaviour, IDamageable {
     public void EnemyOnDie() {
         _canFire = false;
         gameObject.SetActive(false);
-        gameController.OnEnemyDie();
+        actionOnDie?.Invoke();
     }
 }

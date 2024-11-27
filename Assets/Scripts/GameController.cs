@@ -17,6 +17,9 @@ public class GameController : MonoBehaviour {
     }
 
     void Start() {
+        _player.actionOnDie += OnPlayerDie;
+        _player.actionOnHit += OnPlayerHit;
+
         _highScore = PlayerPrefs.GetInt("HighScore", 0);
 
         StartCoroutine(SpawnEnemies());
@@ -51,7 +54,9 @@ public class GameController : MonoBehaviour {
 
                 Enemy enemy = objEnemyObject.GetComponent<Enemy>();
                 if (enemy != null) {
-                    enemy.EnemyOnPlay(this);
+                    enemy.actionOnDie = null;
+                    enemy.actionOnDie += OnEnemyDie;
+                    enemy.EnemyOnPlay();
                 }
             }
 
@@ -60,13 +65,13 @@ public class GameController : MonoBehaviour {
     }
 
 
-    public void OnPlayerHit(int health) {
+    void OnPlayerHit(int health) {
         _uiController.ShowHealth(health);
 
         AudioController.Instance.PlayEffect(AudioController.Instance.damageSound);
     }
 
-    public void OnPlayerDie() {
+    void OnPlayerDie() {
         Time.timeScale = 0.0f;
         bool congratulations = false;
 
@@ -86,7 +91,7 @@ public class GameController : MonoBehaviour {
         _uiController.OnGameOver(_playScore, _highScore, congratulations);
     }
 
-    public void OnEnemyDie() {
+    void OnEnemyDie() {
         _playScore++;
         _uiController.ShowPlayScore(_playScore);
 

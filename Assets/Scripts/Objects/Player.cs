@@ -10,9 +10,10 @@ using Object = UnityEngine.Object;
 
 public class Player : MonoBehaviour, IDamageable {
 
+    public UnityAction actionOnDie;
+    public UnityAction<int> actionOnHit;
     public PlayerConfig playerConfig;
 
-    [SerializeField] private GameController gameController;
     [SerializeField] private RectTransform _stickParent;
     [SerializeField] private Transform _projectileSpawnLocation;
     [SerializeField] private Transform _objAirShip;
@@ -128,7 +129,7 @@ public class Player : MonoBehaviour, IDamageable {
 
             case PowerUp.PowerUpType.PLAYER_HEAL:
                 _health++;
-                gameController.OnPlayerHit(_health);
+                actionOnHit?.Invoke(_health);
                 break;
 
             default:
@@ -161,11 +162,11 @@ public class Player : MonoBehaviour, IDamageable {
             }
 
             Destroy(gameObject);
-            gameController.OnPlayerDie();
+            actionOnDie?.Invoke();
             return;
         }
 
-        gameController.OnPlayerHit(_health);
+        actionOnHit?.Invoke(_health);
     }
 
     private void OnTriggerEnter(Collider other) {
